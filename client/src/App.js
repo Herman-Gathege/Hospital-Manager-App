@@ -12,6 +12,8 @@ import Signup from "./pages/Signup";
 import PublicLayout from "./components/PublicLayout";
 import DashboardLayout from "./components/DashboardLayout";
 import Patients from "./pages/Patients";
+import PatientProfile from "./pages/PatientProfile"; // Import the new PatientProfile page
+
 
 function App() {
     return (
@@ -37,6 +39,7 @@ function App() {
                         {/* Nested Dashboard Routes */}
                         <Route index element={<Dashboard />} />
                         <Route path="patients" element={<Patients />} />
+                        <Route path="patients/:id" element={<PatientProfile />} /> 
                         <Route path="appointments" element={<div>Appointments Page</div>} />
                         <Route path="medical-records" element={<div>Medical Records Page</div>} />
                         <Route path="billing" element={<div>Billing Page</div>} />

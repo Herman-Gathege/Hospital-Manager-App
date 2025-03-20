@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Table,
   TableHead,
@@ -24,6 +25,7 @@ const Patients = () => {
   const { username } = useContext(AuthContext);
   const [openModal, setOpenModal] = useState(false);
   const [patients, setPatients] = useState([]);
+  const navigate = useNavigate();
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -31,6 +33,11 @@ const Patients = () => {
 
   const handleCloseModal = () => {
     setOpenModal(false);
+  };
+
+  // Navigate to the patient profile page
+  const handleViewProfile = (id) => {
+    navigate(`/dashboard/patients/${id}`);
   };
 
   // Fetch patients from the backend
@@ -156,14 +163,17 @@ const Patients = () => {
               <TableCell>{patient.doctor || ""}</TableCell>
               <TableCell>{patient.status || ""}</TableCell>
               <TableCell>
-                <IconButton color="primary">
-                  <VisibilityIcon />
+                <IconButton
+                  color="primary"
+                  onClick={() => handleViewProfile(patient.id)}
+                >
+                  <VisibilityIcon /> <p>View</p>
                 </IconButton>
                 <IconButton color="success">
-                  <EditIcon />
+                  <EditIcon /> <p>Edit</p>
                 </IconButton>
                 <IconButton color="error">
-                  <DeleteIcon />
+                  <DeleteIcon /> <p>Delete</p>
                 </IconButton>
               </TableCell>
             </TableRow>

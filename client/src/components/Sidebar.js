@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link,  useLocation } from "react-router-dom";
 import { Drawer, List, ListItem, ListItemText, IconButton, Divider, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -60,10 +60,10 @@ const Sidebar = () => {
                                 key={item.text}
                                 component={Link}
                                 to={item.path}
-                                onClick={toggleDrawer}
+                                // onClick={toggleDrawer}
                                 style={{
-                                    backgroundColor: location.pathname === item.path ? "#f0f0f0" : "transparent",
-                                    color: location.pathname === item.path ? "#007bff" : "#333",
+                                    backgroundColor: location.pathname === item.path ? "#0095FF" : "transparent",
+                                    color: location.pathname === item.path ? "#EEF7FE" : "#333",
                                     fontWeight: location.pathname === item.path ? "bold" : "normal",
                                 }}
                             >
