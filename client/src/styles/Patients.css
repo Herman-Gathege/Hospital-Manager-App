@@ -1,0 +1,53 @@
+.patients-container {
+  padding: 20px;
+  margin-left: 250px;
+  width: 100%;
+}
+
+.patients-greeting {
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  background: linear-gradient(175deg, #A5D1F5, #EEF7FE); /* Blue gradient */
+  color: white;
+  border-radius: 8px;
+  align-items: center;
+
+}
+
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.patients-search-bar {
+  padding: 8px;
+  margin-top: 10px;
+  width: 50%;
+  border-radius: 30px;
+  border: 1px solid #ccc;
+}
+
+.patients-links {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;}
+
+.patients-link {
+  display: inline-flex;
+  align-items: flex-end;
+  margin-right: 20px;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.patients-link:hover {
+  text-decoration: underline;
+}
+/* Blue Text for Table Headers */
+.blue-text {
+  color: #007bff;
+  font-weight: bold;
+}
