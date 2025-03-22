@@ -27,7 +27,7 @@ const Sidebar = () => {
     const menuItems = [
         { text: "Dashboard", path: "/dashboard", icon: <HomeIcon /> },
         { text: "Patients", path: "/dashboard/patients", icon: <PersonIcon /> },
-        { text: "Appointments", path: "/appointments", icon: <CalendarMonthIcon /> },
+        { text: "Appointments", path: "/dashboard/appointments", icon: <CalendarMonthIcon /> },
         { text: "Medical Records", path: "/medical-records", icon: <MedicalServicesIcon /> },
         { text: "Billing", path: "/billing", icon: <ReceiptIcon /> },
         { text: "Staff Management", path: "/staff", icon: <GroupIcon /> },

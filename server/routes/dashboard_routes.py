@@ -49,7 +49,7 @@ def patient_stats(current_user):
 # Appointment Statistics Route
 @dashboard_bp.route('/appointment_stats', methods=['GET'])
 @token_required
-def appointment_stats():
+def appointment_stats(current_user):
     scheduled_count = Appointment.query.filter_by(status="scheduled").count()
     completed_count = Appointment.query.filter_by(status="completed").count()
     canceled_count = Appointment.query.filter_by(status="canceled").count()

@@ -73,3 +73,30 @@ export const deletePatient = async (patientId) => {
         throw new Error(error.response?.data?.message || "Error deleting patient");
     }
 };
+
+// Fetch all doctors
+export const getAllDoctors = async () => {
+    try {
+        const response = await axios.get(`${API_URL}doctors`, {
+            headers: getAuthHeader(),
+        });
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || "Error fetching doctors");
+    }
+};
+
+
+// export const addMedicalRecord = async (patientId, recordData) => {
+//   const response = await axios.post(
+//     `/patients/${patientId}/medical_records`,
+//     recordData,
+//     { headers: { "Content-Type": "application/json" } }
+//   );
+//   return response.data;
+// };
+
+// export const getMedicalRecords = async (patientId) => {
+//   const response = await axios.get(`/patients/${patientId}/medical_records`);
+//   return response.data;
+// };

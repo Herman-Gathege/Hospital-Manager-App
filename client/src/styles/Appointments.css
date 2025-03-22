@@ -1,0 +1,60 @@
+/* General Fix for Overflow */
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Appointments Container */
+.appointments-container {
+  padding: 20px;
+  margin-left: 250px;
+  width: 100% ; /* Adjust for sidebar width */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Greeting Section */
+.appointments-greeting {
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  background: linear-gradient(175deg, #A5D1F5, #EEF7FE); /* Blue gradient */
+  color: white;
+  border-radius: 8px;
+  align-items: center;
+}
+
+/* Search Bar */
+.appointments-search-bar {
+  padding: 8px;
+  margin-top: 10px;
+  width: 50%;
+  border-radius: 30px;
+  border: 1px solid #ccc;
+}
+
+/* Links */
+.appointments-links {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.appointments-link {
+  display: inline-flex;
+  align-items: flex-end;
+  margin-right: 20px;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.appointments-link:hover {
+  text-decoration: underline;
+}
+
+/* Blue Text for Table Headers */
+.blue-text {
+  color: #007bff;
+  font-weight: bold;
+}
