@@ -31,7 +31,7 @@ const Sidebar = () => {
         { text: "Medical Records", path: "/medical-records", icon: <MedicalServicesIcon /> },
         { text: "Billing", path: "/billing", icon: <ReceiptIcon /> },
         { text: "Staff Management", path: "/staff", icon: <GroupIcon /> },
-        { text: "Inventory", path: "/inventory", icon: <InventoryIcon /> },
+        { text: "Inventory", path: "/dashboard/inventory", icon: <InventoryIcon /> },
         { text: "Reports", path: "/reports", icon: <ReportIcon /> },
         { text: "Settings", path: "/settings", icon: <SettingsIcon /> },
 

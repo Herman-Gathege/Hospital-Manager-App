@@ -12,7 +12,7 @@ import {
 } from "../api/dashboardService";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
-import { Button, } from "@mui/material";
+import { Button } from "@mui/material";
 import {
   BarChart,
   Bar,
@@ -26,6 +26,8 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import { useNavigate } from "react-router-dom";
+
 import "../styles/Dashboard.css";
 
 const Dashboard = () => {
@@ -40,6 +42,8 @@ const Dashboard = () => {
   const [patientData, setPatientData] = useState([]);
   const [revenueData, setRevenueData] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -165,11 +169,17 @@ const Dashboard = () => {
 
         {/* Three-Column Widget */}
         <div className="overview-container">
-          <div className="widget">
-            Total Patients: {overview.total_patients}
+          <div
+            className="widget"
+            onClick={() => navigate("/dashboard/patients")}
+            style={{ cursor: "pointer" }}
+          >
+            Total Registered Patients: {overview.total_patients}
           </div>
-          <div className="widget">
-            Total Appointments: {overview.total_appointments}
+          <div className="widget"
+          onClick={() => navigate("/dashboard/appointments")}
+          style={{ cursor: "pointer" }}>
+            Appointments: {overview.total_appointments}
           </div>
           <div className="widget">
             Available Doctors: {overview.available_doctors}
@@ -240,10 +250,10 @@ const Dashboard = () => {
         <Outlet />
       </div>
       <AddPatientModal
-              open={openModal}
-              onClose={handleCloseModal}
-              onSuccess={() => console.log("Patient Added")}
-            />
+        open={openModal}
+        onClose={handleCloseModal}
+        onSuccess={() => console.log("Patient Added")}
+      />
     </div>
   );
 };
