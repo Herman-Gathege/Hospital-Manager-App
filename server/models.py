@@ -20,153 +20,7 @@ class User(db.Model):
         return bcrypt.check_password_hash(self.password_hash, password)
 
 
-# # Patient Management
-# class Patient(db.Model):
-#     __tablename__ = 'patients'
-#     id = db.Column(db.Integer, primary_key=True)
-#     first_name = db.Column(db.String(50), nullable=False)
-#     last_name = db.Column(db.String(50), nullable=False)
-#     dob = db.Column(db.Date, nullable=False)
-#     gender = db.Column(db.String(10), nullable=False)
-#     phone_number = db.Column(db.String(20), nullable=False)
-#     address = db.Column(db.String(100), nullable=False)
-#     medical_history = db.Column(db.Text)
-#     check_in_date = db.Column(db.DateTime, default=datetime.utcnow)
-#     discharge_date = db.Column(db.DateTime, nullable=True)
 
-    # Patient Management
-# class Patient(db.Model):
-#     __tablename__ = 'patients'
-#     id = db.Column(db.Integer, primary_key=True)
-#     first_name = db.Column(db.String(50), nullable=False)
-#     last_name = db.Column(db.String(50), nullable=False)
-#     dob = db.Column(db.Date, nullable=False)
-#     gender = db.Column(db.String(10), nullable=False)
-#     phone_number = db.Column(db.String(20), nullable=False)
-#     address = db.Column(db.String(100), nullable=False)
-#     medical_history = db.Column(db.Text)
-#     check_in_date = db.Column(db.DateTime, default=datetime.utcnow)
-#     discharge_date = db.Column(db.DateTime, nullable=True)
-
-#     # New fields to match your form data
-#     blood_group = db.Column(db.String(10))
-#     allergies = db.Column(db.Text)
-#     chronic_conditions = db.Column(db.Text)
-#     doctor = db.Column(db.String(100))  # You can use a relationship with the Doctor model if needed
-#     image_path = db.Column(db.String(255))  # To store the file path of the uploaded image
-
-#     def to_dict(self):
-
-#         # Fetch the doctor's name based on the stored doctor ID
-#         doctor_name = None
-#         if self.doctor:
-#            doctor = User.query.get(self.doctor)  # Assuming the User model has the doctor's info
-#            doctor_name = doctor.username if doctor else "Unknown"
-
-#         return {
-#             "id": self.id,
-#             "first_name": self.first_name,
-#             "last_name": self.last_name,
-#             "dob": self.dob.isoformat() if self.dob else None,
-#             "gender": self.gender,
-#             "phone_number": self.phone_number,
-#             "address": self.address,
-#             "medical_history": self.medical_history,
-#             "check_in_date": self.check_in_date.isoformat() if self.check_in_date else None,
-#             "discharge_date": self.discharge_date.isoformat() if self.discharge_date else None,
-#             "blood_group": self.blood_group,
-#             "allergies": self.allergies,
-#             "chronic_conditions": self.chronic_conditions,
-#             "doctor": doctor_name,
-#             "image_path": self.image_path
-#         }
-
-# class Patient(db.Model):
-#     __tablename__ = 'patients'
-#     id = db.Column(db.Integer, primary_key=True)
-#     first_name = db.Column(db.String(50), nullable=False)
-#     last_name = db.Column(db.String(50), nullable=False)
-#     dob = db.Column(db.Date, nullable=False)
-#     gender = db.Column(db.String(10), nullable=False)
-#     phone_number = db.Column(db.String(20), nullable=False)
-#     address = db.Column(db.String(100), nullable=False)
-#     medical_history = db.Column(db.Text)
-#     check_in_date = db.Column(db.DateTime, default=datetime.utcnow)
-#     discharge_date = db.Column(db.DateTime, nullable=True)
-
-#     # New fields to match your form data
-#     blood_group = db.Column(db.String(10))
-#     allergies = db.Column(db.Text)
-#     chronic_conditions = db.Column(db.Text)
-#     doctor_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-#     doctor = db.relationship('User', backref='patients')
-#     image_path = db.Column(db.String(255))
-
-#     # Cascade delete appointments when a patient is deleted
-#     appointments = db.relationship("Appointment", backref="patient", cascade="all, delete-orphan")
-
-#     def to_dict(self):
-#         return {
-#             "id": self.id,
-#             "first_name": self.first_name,
-#             "last_name": self.last_name,
-#             "dob": self.dob.isoformat() if self.dob else None,
-#             "gender": self.gender,
-#             "phone_number": self.phone_number,
-#             "address": self.address,
-#             "medical_history": self.medical_history,
-#             "check_in_date": self.check_in_date.isoformat() if self.check_in_date else None,
-#             "discharge_date": self.discharge_date.isoformat() if self.discharge_date else None,
-#             "blood_group": self.blood_group,
-#             "allergies": self.allergies,
-#             "chronic_conditions": self.chronic_conditions,
-#             "doctor_name": self.doctor.username if self.doctor else "N/A",
-#             "image_path": self.image_path
-#         }
-
-
-
-
-
-# # # Appointment Scheduling
-# # class Appointment(db.Model):
-# #     __tablename__ = 'appointments'
-# #     id = db.Column(db.Integer, primary_key=True)
-# #     patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
-# #     doctor_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-# #     appointment_date = db.Column(db.DateTime, nullable=False)
-# #     status = db.Column(db.String(20), default='scheduled')  # scheduled, canceled, completed
-
-# #     def to_dict(self):
-# #         return {
-# #             "id": self.id,
-# #             "patient_id": self.patient_id,
-# #             "doctor_id": self.doctor_id,
-# #             "appointment_date": self.appointment_date.isoformat() if self.appointment_date else None,
-# #             "status": self.status
-# #         }
-
-# # Appointment Scheduling
-# class Appointment(db.Model):
-#     __tablename__ = 'appointments'
-#     id = db.Column(db.Integer, primary_key=True)
-#     patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
-#     doctor_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-#     appointment_date = db.Column(db.DateTime, nullable=False)
-#     status = db.Column(db.String(20), default='scheduled')  # scheduled, canceled, completed
-
-#     # Establish relationships with Patient and User (Doctor)
-#     patient = db.relationship("Patient", backref="appointments")
-#     doctor = db.relationship("User", backref="appointments")
-
-#     def to_dict(self):
-#         return {
-#             "id": self.id,
-#             "patient_name": f"{self.patient.first_name} {self.patient.last_name}",
-#             "doctor_name": self.doctor.username,
-#             "appointment_date": self.appointment_date.isoformat() if self.appointment_date else None,
-#             "status": self.status
-#         }
 
 # Patient Management
 class Patient(db.Model):
@@ -302,3 +156,12 @@ class Inventory(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     supplier = db.Column(db.String(100), nullable=True)
     last_updated = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "item_name": self.item_name,
+            "quantity": self.quantity,
+            "supplier": self.supplier,
+            "last_updated": self.last_updated.isoformat() if self.last_updated else None
+        }

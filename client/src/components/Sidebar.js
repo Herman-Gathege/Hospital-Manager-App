@@ -28,11 +28,11 @@ const Sidebar = () => {
         { text: "Dashboard", path: "/dashboard", icon: <HomeIcon /> },
         { text: "Patients", path: "/dashboard/patients", icon: <PersonIcon /> },
         { text: "Appointments", path: "/dashboard/appointments", icon: <CalendarMonthIcon /> },
-        { text: "Medical Records", path: "/medical-records", icon: <MedicalServicesIcon /> },
+        // { text: "Medical Records", path: "/medical-records", icon: <MedicalServicesIcon /> },
         { text: "Billing", path: "/billing", icon: <ReceiptIcon /> },
         { text: "Staff Management", path: "/staff", icon: <GroupIcon /> },
         { text: "Inventory", path: "/dashboard/inventory", icon: <InventoryIcon /> },
-        { text: "Reports", path: "/reports", icon: <ReportIcon /> },
+        // { text: "Reports", path: "/reports", icon: <ReportIcon /> },
         { text: "Settings", path: "/settings", icon: <SettingsIcon /> },
 
     ];

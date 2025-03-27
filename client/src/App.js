@@ -14,6 +14,7 @@ import DashboardLayout from "./components/DashboardLayout";
 import Patients from "./pages/Patients";
 import PatientProfile from "./pages/PatientProfile"; // Import the new PatientProfile page
 import Appointments from "./pages/Appointments";
+import Inventory from "./pages/Inventory";
 
 
 function App() {
@@ -45,7 +46,7 @@ function App() {
                         <Route path="medical-records" element={<div>Medical Records Page</div>} />
                         <Route path="billing" element={<div>Billing Page</div>} />
                         <Route path="staff" element={<div>Staff Management Page</div>} />
-                        <Route path="inventory" element={<div>Inventory Page</div>} />
+                        <Route path="inventory" element={<Inventory />} />
                         <Route path="reports" element={<div>Reports Page</div>} />
                         <Route path="settings" element={<div>Settings Page</div>} />
                     </Route>

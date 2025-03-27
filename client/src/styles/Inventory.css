@@ -1,11 +1,11 @@
-.patients-container {
+.inventory-container {
   padding: 20px;
   margin-left: 250px;
   width: 100%;
   margin-right: 0;
 }
 
-.patients-greeting {
+.inventory-greeting {
   padding: 20px;
   margin-bottom: 20px;
   text-align: center;
@@ -22,7 +22,7 @@
   margin-top: 10px;
 }
 
-.patients-search-bar {
+.inventory-search-bar {
   padding: 8px;
   margin-top: 10px;
   width: 50%;
@@ -30,12 +30,12 @@
   border: 1px solid #ccc;
 }
 
-.patients-links {
+.inventory-links {
   display: flex;
   justify-content: space-around;
   margin: 20px 0;}
 
-.patients-link {
+.inventory-link {
   display: inline-flex;
   align-items: flex-end;
   margin-right: 20px;
@@ -44,7 +44,7 @@
   font-weight: bold;
 }
 
-.patients-link:hover {
+.inventory-link:hover {
   text-decoration: underline;
 }
 /* Blue Text for Table Headers */
