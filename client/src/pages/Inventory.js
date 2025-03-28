@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useContext } from "react";
 import {
   Table,
@@ -28,6 +26,7 @@ const Inventory = () => {
   const fetchInventory = async () => {
     try {
       const data = await getAllInventory();
+      console.log("Fetched Inventory Data:", data); // Debugging log
       setInventory(data);
     } catch (error) {
       console.error("Error fetching inventory:", error.message);
@@ -85,56 +84,38 @@ const Inventory = () => {
         </Button>
       </div>
 
-      {/* Inventory Table
+      {/* Inventory Table */}
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell
-              className="blue-text"
-              style={{ color: "#007bff", fontWeight: "bold", fontSize: "12px" }}
-            >
-              Item Name
+            <TableCell style={{ color: "#007bff", fontWeight: "bold", fontSize: "12px" }}>
+              Drug Name
             </TableCell>
-            <TableCell
-              className="blue-text"
-              style={{ color: "#007bff", fontWeight: "bold", fontSize: "12px" }}
-            >
-              Actions
-            </TableCell>
-            <TableCell
-              className="blue-text"
-              style={{ color: "#007bff", fontWeight: "bold", fontSize: "12px" }}
-            >
+            <TableCell style={{ color: "#007bff", fontWeight: "bold", fontSize: "12px" }}>
               Quantity
             </TableCell>
-            <TableCell
-              className="blue-text"
-              style={{ color: "#007bff", fontWeight: "bold", fontSize: "12px" }}
-            >
-              Supplier
+            <TableCell style={{ color: "#007bff", fontWeight: "bold", fontSize: "12px" }}>
+              Cost (KES)
             </TableCell>
-            <TableCell
-              className="blue-text"
-              style={{ color: "#007bff", fontWeight: "bold", fontSize: "12px" }}
-            >
-              Last Updated
+            <TableCell style={{ color: "#007bff", fontWeight: "bold", fontSize: "12px" }}>
+              Expiration Date
+            </TableCell>
+            <TableCell style={{ color: "#007bff", fontWeight: "bold", fontSize: "12px" }}>
+              Actions
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {inventory.map((item) => (
             <TableRow key={item.id}>
-              <TableCell>{item.item_name || "N/A"}</TableCell>
+              <TableCell>{item.drug_name || "N/A"}</TableCell>
               <TableCell>{item.quantity || "N/A"}</TableCell>
-              <TableCell>{item.supplier || "N/A"}</TableCell>
+              <TableCell>{item.cost ? `KES ${item.cost.toFixed(2)}` : "N/A"}</TableCell>
               <TableCell>
-                {new Date(item.last_updated).toLocaleDateString() || "N/A"}
+                {item.expiration_date ? new Date(item.expiration_date).toLocaleDateString() : "N/A"}
               </TableCell>
               <TableCell>
-                <IconButton
-                  color="primary"
-                  onClick={() => handleOpenModal(item)}
-                >
+                <IconButton color="primary" onClick={() => handleOpenModal(item)}>
                   <EditIcon />
                 </IconButton>
                 <IconButton color="error" onClick={() => handleDelete(item.id)}>
@@ -144,64 +125,7 @@ const Inventory = () => {
             </TableRow>
           ))}
         </TableBody>
-      </Table> */}
-
-      {/* Inventory Table */}
-<Table>
-  <TableHead>
-    <TableRow>
-      <TableCell
-        className="blue-text"
-        style={{ color: "#007bff", fontWeight: "bold", fontSize: "12px" }}
-      >
-        Item Name
-      </TableCell>
-      <TableCell
-        className="blue-text"
-        style={{ color: "#007bff", fontWeight: "bold", fontSize: "12px" }}
-      >
-        Quantity
-      </TableCell>
-      <TableCell
-        className="blue-text"
-        style={{ color: "#007bff", fontWeight: "bold", fontSize: "12px" }}
-      >
-        Supplier
-      </TableCell>
-      <TableCell
-        className="blue-text"
-        style={{ color: "#007bff", fontWeight: "bold", fontSize: "12px" }}
-      >
-        Last Updated
-      </TableCell>
-      <TableCell
-        className="blue-text"
-        style={{ color: "#007bff", fontWeight: "bold", fontSize: "12px" }}
-      >
-        Actions
-      </TableCell>
-    </TableRow>
-  </TableHead>
-  <TableBody>
-    {inventory.map((item) => (
-      <TableRow key={item.id}>
-        <TableCell>{item.item_name || "N/A"}</TableCell>
-        <TableCell>{item.quantity || "N/A"}</TableCell>
-        <TableCell>{item.supplier || "N/A"}</TableCell>
-        <TableCell>{new Date(item.last_updated).toLocaleDateString() || "N/A"}</TableCell>
-        <TableCell>
-          <IconButton color="primary" onClick={() => handleOpenModal(item)}>
-            <EditIcon />
-          </IconButton>
-          <IconButton color="error" onClick={() => handleDelete(item.id)}>
-            <DeleteIcon />
-          </IconButton>
-        </TableCell>
-      </TableRow>
-    ))}
-  </TableBody>
-</Table>
-
+      </Table>
 
       {/* Add Inventory Modal */}
       <AddInventoryModal

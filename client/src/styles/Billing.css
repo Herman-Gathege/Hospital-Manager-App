@@ -1,0 +1,108 @@
+.billing-container {
+  padding: 20px;
+  margin-left: 250px;
+  width: 100%;
+  margin-right: 0;
+}
+
+.billing-header {
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  background: linear-gradient(175deg, #A5D1F5, #EEF7FE); /* Blue gradient */
+  color: white;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.billing-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.billing-header button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.billing-header button:hover {
+  text-decoration: underline;
+}
+
+.billing-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.billing-table th {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  text-align: left;
+  font-size: 12px;
+}
+
+.billing-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.billing-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.billing-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.billing-actions button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.billing-actions .MuiIconButton-root {
+  padding: 5px;
+}
+
+.billing-actions .MuiIconButton-root p {
+  margin: 0;
+  font-size: 12px;
+}
+
+/* Table responsiveness */
+@media screen and (max-width: 768px) {
+  .billing-container {
+    margin-left: 0;
+    padding: 10px;
+  }
+
+  .billing-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .billing-table th,
+  .billing-table td {
+    font-size: 10px;
+    padding: 8px;
+  }
+
+  .billing-actions {
+    flex-direction: column;
+  }
+}

@@ -42,6 +42,7 @@ def create_medical_record(current_user):
         prescription = data.get("prescription")
         lab_results = data.get("lab_results")
         patient_id = data.get("patient_id")
+        units_prescribed = data.get("units_prescribed")
 
         # Validate required fields
         if not diagnosis or not prescription or not patient_id:
@@ -51,6 +52,7 @@ def create_medical_record(current_user):
             patient_id=patient_id,
             diagnosis=diagnosis,
             prescription=prescription,
+            units_prescribed=units_prescribed,
             lab_results=lab_results,
             date_created=datetime.utcnow()
         )
@@ -92,7 +94,36 @@ def delete_medical_record(current_user, id):
     try:
         db.session.delete(record)
         db.session.commit()
-        return jsonify({"message": "Medical record deleted"}), 204
+        return jsonify({"message": "Medical record deleted"}), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": str(e)}), 400
+
+
+@medical_record_bp.route('/medical_record/update', methods=['POST'])
+@token_required
+def link_medical_record(current_user):
+    """
+    Updates a medical record to link it with billing.
+    """
+    data = request.get_json()
+    
+    patient_id = data.get("patient_id")
+    prescription_id = data.get("prescription_id")
+    billing_id = data.get("billing_id")
+
+    if not all([patient_id, prescription_id, billing_id]):
+        return jsonify({"message": "Missing required fields"}), 400
+
+    try:
+        # Update medical record (assuming you have a MedicalRecord model)
+        medical_record = MedicalRecord.query.filter_by(patient_id=patient_id, prescription_id=prescription_id).first()
+        if not medical_record:
+            return jsonify({"message": "Medical record not found"}), 404
+
+        medical_record.billing_id = billing_id
+        db.session.commit()
+        return jsonify({"message": "Medical record updated with billing info"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": str(e)}), 500

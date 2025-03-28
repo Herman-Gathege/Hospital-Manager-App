@@ -9,12 +9,13 @@ const getAuthHeader = () => {
 };
 
 // Create a new medical record
-export const createMedicalRecord = async (patientId, diagnosis, prescription, labResults) => {
+export const createMedicalRecord = async (patientId, diagnosis, prescription, unitsPrescribed, labResults) => {
     try {
         const response = await axios.post(API_URL, {
             patient_id: patientId,
             diagnosis,
             prescription,
+            units_prescribed: unitsPrescribed,
             lab_results: labResults,
         }, {
             headers: {

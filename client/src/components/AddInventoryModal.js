@@ -1,76 +1,59 @@
-// import React, { useState } from "react";
-// import {
-//   Modal,
-//   Box,
-//   Typography,
-//   TextField,
-//   Button,
-// } from "@mui/material";
-// import { createInventory } from "../api/inventoryService";
 
-// const style = {
-//   position: "absolute",
-//   top: "50%",
-//   left: "50%",
-//   transform: "translate(-50%, -50%)",
-//   width: 400,
-//   bgcolor: "background.paper",
-//   boxShadow: 24,
-//   p: 4,
-//   borderRadius: "8px",
-// };
+// import React, { useState, useEffect } from "react";
+// import { Dialog, DialogTitle, DialogContent, TextField, Button } from "@mui/material";
+// import { addInventoryItem, updateInventoryItem } from "../api/inventoryService";
 
-// const AddInventoryModal = ({ open, onClose }) => {
-//   const [name, setName] = useState("");
-//   const [quantity, setQuantity] = useState(0);
-//   const [price, setPrice] = useState(0);
+// const AddInventoryModal = ({ open, onClose, onSuccess, editItem }) => {
+//   const [itemName, setItemName] = useState("");
+//   const [quantity, setQuantity] = useState("");
+//   const [supplier, setSupplier] = useState("");
+//   const [cost, setCost] = useState("");
+
+//   useEffect(() => {
+//     if (editItem) {
+//       setItemName(editItem.item_name);
+//       setQuantity(editItem.quantity);
+//       setSupplier(editItem.supplier);
+//       setCost(editItem.cost);
+//     } else {
+//       setItemName("");
+//       setQuantity("");
+//       setSupplier("");
+//       setCost("");
+//     }
+//   }, [editItem]);
 
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
 //     try {
-//       await createInventory(name, quantity, price);
+//       const inventoryData = { item_name: itemName, quantity, supplier, cost };
+//       if (editItem) {
+//         await updateInventoryItem(editItem.id, inventoryData);
+//         alert("Item updated successfully!");
+//       } else {
+//         await addInventoryItem(inventoryData);
+//         alert("Item added successfully!");
+//       }
+//       onSuccess();
 //       onClose();
 //     } catch (error) {
-//       console.error("Error adding inventory:", error.message);
+//       alert("Error saving item: " + error.message);
 //     }
 //   };
 
 //   return (
-//     <Modal open={open} onClose={onClose}>
-//       <Box sx={style}>
-//         <Typography variant="h6" component="h2">
-//           Add Inventory
-//         </Typography>
+//     <Dialog open={open} onClose={onClose}>
+//       <DialogTitle>{editItem ? "Edit Inventory Item" : "Add Inventory Item"}</DialogTitle>
+//       <DialogContent>
 //         <form onSubmit={handleSubmit}>
-//           <TextField
-//             label="Item Name"
-//             fullWidth
-//             margin="normal"
-//             value={name}
-//             onChange={(e) => setName(e.target.value)}
-//           />
-//           <TextField
-//             label="Quantity"
-//             type="number"
-//             fullWidth
-//             margin="normal"
-//             value={quantity}
-//             onChange={(e) => setQuantity(e.target.value)}
-//           />
-//           <TextField
-//             label="Price"
-//             type="number"
-//             fullWidth
-//             margin="normal"
-//             value={price}
-//             onChange={(e) => setPrice(e.target.value)}
-//           />
-//           <Button type="submit" variant="contained" color="primary">
-//             Add
-//           </Button>
+//           <TextField label="Item Name" fullWidth value={itemName} onChange={(e) => setItemName(e.target.value)} required />
+//           <TextField label="Quantity" fullWidth value={quantity} onChange={(e) => setQuantity(e.target.value)} required />
+//           <TextField label="Supplier" fullWidth value={supplier} onChange={(e) => setSupplier(e.target.value)} required />
+//           <TextField label="Cost" fullWidth value={cost} onChange={(e) => setCost(e.target.value)} required />
+//           <Button type="submit" color="primary">{editItem ? "Update" : "Add"}</Button>
 //         </form>
-//       </Box>
-//     </Modal>
+//       </DialogContent>
+//     </Dialog>
 //   );
 // };
 
@@ -81,37 +64,58 @@ import { Dialog, DialogTitle, DialogContent, TextField, Button } from "@mui/mate
 import { addInventoryItem, updateInventoryItem } from "../api/inventoryService";
 
 const AddInventoryModal = ({ open, onClose, onSuccess, editItem }) => {
-  const [itemName, setItemName] = useState("");
+  const [drugName, setDrugName] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [supplier, setSupplier] = useState("");
+  const [cost, setCost] = useState("");
+  const [expirationDate, setExpirationDate] = useState("");
+  const [error, setError] = useState("");  // New error state
 
   useEffect(() => {
     if (editItem) {
-      setItemName(editItem.item_name);
-      setQuantity(editItem.quantity);
-      setSupplier(editItem.supplier);
+      setDrugName(editItem.drug_name || "");
+      setQuantity(editItem.quantity || "");
+      setCost(editItem.cost || "");
+      setExpirationDate(editItem.expiration_date || "");
     } else {
-      setItemName("");
+      setDrugName("");
       setQuantity("");
-      setSupplier("");
+      setCost("");
+      setExpirationDate("");
     }
   }, [editItem]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");  // Reset errors
+
+    // Validate input
+    if (!drugName || !quantity || !cost || !expirationDate) {
+      setError("All fields are required!");
+      return;
+    }
+    if (quantity <= 0 || cost <= 0) {
+      setError("Quantity and Cost must be positive numbers!");
+      return;
+    }
+
     try {
-      const inventoryData = { item_name: itemName, quantity, supplier };
+      const inventoryData = { 
+        drug_name: drugName, 
+        quantity: Number(quantity), 
+        cost: Number(cost), 
+        expiration_date: expirationDate  // Ensure correct format
+      };
+
       if (editItem) {
         await updateInventoryItem(editItem.id, inventoryData);
-        alert("Item updated successfully!");
       } else {
         await addInventoryItem(inventoryData);
-        alert("Item added successfully!");
       }
-      onSuccess();
+
+      onSuccess();  
       onClose();
     } catch (error) {
-      alert("Error saving item: " + error.message);
+      setError(error.message || "Error saving item");
     }
   };
 
@@ -120,10 +124,16 @@ const AddInventoryModal = ({ open, onClose, onSuccess, editItem }) => {
       <DialogTitle>{editItem ? "Edit Inventory Item" : "Add Inventory Item"}</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit}>
-          <TextField label="Item Name" fullWidth value={itemName} onChange={(e) => setItemName(e.target.value)} required />
-          <TextField label="Quantity" fullWidth value={quantity} onChange={(e) => setQuantity(e.target.value)} required />
-          <TextField label="Supplier" fullWidth value={supplier} onChange={(e) => setSupplier(e.target.value)} required />
-          <Button type="submit" color="primary">{editItem ? "Update" : "Add"}</Button>
+          {error && <p style={{ color: "red" }}>{error}</p>}  {/* Display validation errors */}
+          
+          <TextField label="Drug Name" fullWidth value={drugName} onChange={(e) => setDrugName(e.target.value)} required />
+          <TextField label="Quantity" type="number" fullWidth value={quantity} onChange={(e) => setQuantity(e.target.value)} required />
+          <TextField label="Cost" type="number" fullWidth value={cost} onChange={(e) => setCost(e.target.value)} required />
+          <TextField label="Expiration Date" type="date" fullWidth value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} required />
+          
+          <Button type="submit" color="primary" variant="contained" style={{ marginTop: "10px" }}>
+            {editItem ? "Update" : "Add"}
+          </Button>
         </form>
       </DialogContent>
     </Dialog>

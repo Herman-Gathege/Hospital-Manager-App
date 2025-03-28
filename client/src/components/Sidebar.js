@@ -29,7 +29,7 @@ const Sidebar = () => {
         { text: "Patients", path: "/dashboard/patients", icon: <PersonIcon /> },
         { text: "Appointments", path: "/dashboard/appointments", icon: <CalendarMonthIcon /> },
         // { text: "Medical Records", path: "/medical-records", icon: <MedicalServicesIcon /> },
-        { text: "Billing", path: "/billing", icon: <ReceiptIcon /> },
+        { text: "Billing", path: "/dashboard/billing", icon: <ReceiptIcon /> },
         { text: "Staff Management", path: "/staff", icon: <GroupIcon /> },
         { text: "Inventory", path: "/dashboard/inventory", icon: <InventoryIcon /> },
         // { text: "Reports", path: "/reports", icon: <ReportIcon /> },
