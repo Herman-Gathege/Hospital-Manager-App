@@ -28,15 +28,58 @@ export const getAllBilling = async () => {
 };
 
 
+// export const addBilling = async (billingData) => {
+//     try {
+//         // Ensure the request payload uses `patient_id` (snake_case)
+//         const correctedBillingData = {
+//             patient_id: billingData.patient_id,  // Ensure this is in snake_case
+//             cost: billingData.cost,
+//             drug_name: billingData.drug_name,
+//             quantity: billingData.quantity
+//         };
+
+//         const response = await axios.post(API_URL, correctedBillingData, {
+//             headers: { ...getAuthHeader(), "Content-Type": "application/json" }
+//         });
+
+//         return response.data;
+//     } catch (error) {
+//         console.error("Error adding billing:", error.response?.data || error.message);
+//         throw new Error(error.response?.data?.message || "Error adding billing record");
+//     }
+// };
+
+// export const addBilling = async (billingData) => {
+//     try {
+//         // Ensure the request payload matches the backend model fields
+//         const correctedBillingData = {
+//             patient_id: billingData.patient_id,  // ✅ Correct field
+//             total_amount_due: billingData.cost, // 🔄 Rename 'cost' to 'total_amount_due'
+//             drug_name: billingData.drug_name,
+//             quantity: billingData.quantity
+//         };
+
+//         const response = await axios.post(API_URL, correctedBillingData, {
+//             headers: { ...getAuthHeader(), "Content-Type": "application/json" }
+//         });
+
+//         return response.data;
+//     } catch (error) {
+//         console.error("Error adding billing:", error.response?.data || error.message);
+//         throw new Error(error.response?.data?.message || "Error adding billing record");
+//     }
+// };
+
 export const addBilling = async (billingData) => {
     try {
-        // Ensure the request payload uses `patient_id` (snake_case)
         const correctedBillingData = {
-            patient_id: billingData.patient_id,  // Ensure this is in snake_case
-            cost: billingData.cost,
+            patient_id: billingData.patient_id,
+            total_amount_due: billingData.cost,
             drug_name: billingData.drug_name,
             quantity: billingData.quantity
         };
+
+        console.log("Sending Billing Data:", correctedBillingData);  // Debugging
 
         const response = await axios.post(API_URL, correctedBillingData, {
             headers: { ...getAuthHeader(), "Content-Type": "application/json" }
@@ -48,6 +91,8 @@ export const addBilling = async (billingData) => {
         throw new Error(error.response?.data?.message || "Error adding billing record");
     }
 };
+
+
 
 export const deleteBilling = async (id) => {
     try {

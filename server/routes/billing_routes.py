@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify
 from models import Billing, BillingItem, Inventory, db
 from utils.auth_middleware import token_required
+from decimal import Decimal
+
 
 billing_bp = Blueprint('billing', __name__)  # Ensure it matches __init__.py
 
@@ -34,21 +36,54 @@ def get_invoice(current_user, id):
 #         db.session.rollback()  # Rollback in case of error
 #         return jsonify({"message": str(e)}), 400
 
+# @billing_bp.route('/', methods=['POST'])
+# @token_required
+# def create_invoice(current_user):
+#     data = request.get_json()
+#     # print("Received Billing Data:", data)  # Debugging line
+#     print(f"Received Billing Data: {data}")  # Debugging line
+
+
+#     if not data:
+#         return jsonify({"message": "Invalid input"}), 400
+
+#     try:
+#         new_invoice = Billing(
+#             patient_id=data.get("patient_id"),  # Ensure snake_case
+#             total_amount=data.get("total_amount")
+#         )
+#         db.session.add(new_invoice)
+#         db.session.commit()
+#         return jsonify(new_invoice.to_dict()), 201
+#     except Exception as e:
+#         db.session.rollback()
+#         return jsonify({"message": str(e)}), 400
+
 @billing_bp.route('/', methods=['POST'])
 @token_required
 def create_invoice(current_user):
     data = request.get_json()
-    # print("Received Billing Data:", data)  # Debugging line
-    print(f"Received Billing Data: {data}")  # Debugging line
-
+    print(f"Received Billing Data: {data}")  # Debugging
 
     if not data:
         return jsonify({"message": "Invalid input"}), 400
 
+    missing_fields = []
+    if "patient_id" not in data:
+        missing_fields.append("patient_id")
+    if "total_amount_due" not in data:
+        missing_fields.append("total_amount_due")
+
+    if missing_fields:
+        return jsonify({"message": f"Missing required fields: {', '.join(missing_fields)}"}), 400
+
     try:
+        # Ensure total_amount_due is converted to Decimal
+        total_amount_due = Decimal(str(data["total_amount_due"]))
+
         new_invoice = Billing(
-            patient_id=data.get("patient_id"),  # Ensure snake_case
-            total_amount=data.get("total_amount")
+            patient_id=data["patient_id"],
+            total_amount_due=total_amount_due  # Store as Decimal
         )
         db.session.add(new_invoice)
         db.session.commit()
@@ -56,6 +91,8 @@ def create_invoice(current_user):
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": str(e)}), 400
+
+
 
 
 @billing_bp.route('/<int:id>', methods=['PUT'])
@@ -96,17 +133,10 @@ def delete_invoice(current_user, id):
 @billing_bp.route('/add', methods=['POST'])
 @token_required
 def create_invoice_with_items(current_user):
-    """
-    Create a billing invoice when a doctor prescribes medication.
-    - Checks inventory
-    - Deducts stock
-    - Calculates total cost
-    - Stores billing record
-    """
     data = request.get_json()
-    
+
     patient_id = data.get("patient_id")
-    items = data.get("items", [])  # Expected: [{drug_id, quantity}]
+    items = data.get("items", [])
 
     if not patient_id or not items:
         return jsonify({"message": "Patient ID and items are required"}), 400
@@ -118,31 +148,29 @@ def create_invoice_with_items(current_user):
         drug_id = item.get("drug_id")
         quantity = item.get("quantity")
 
-        # Check if drug exists in inventory
         drug = Inventory.query.get(drug_id)
         if not drug:
             return jsonify({"message": f"Drug with ID {drug_id} not found"}), 404
 
-        # Check stock availability
         if drug.stock < quantity:
             return jsonify({"message": f"Insufficient stock for {drug.name}"}), 400
 
-        # Deduct from inventory
         drug.stock -= quantity
-
-        # Calculate cost
         cost = drug.price * quantity
         total_cost += cost
 
-        # Create a BillingItem
-        billing_item = BillingItem(drug_id=drug_id, quantity=quantity, price=cost)
+        billing_item = BillingItem(inventory_id=drug_id, quantity=quantity, price=cost)
         billing_items.append(billing_item)
 
-    # Create the Billing record
-    new_billing = Billing(patient_id=patient_id, total_amount=total_cost, items=billing_items)
+    new_billing = Billing(patient_id=patient_id, total_amount_due=total_cost)
+    db.session.add(new_billing)
+    db.session.flush()  # Get billing ID before committing
+
+    for item in billing_items:
+        item.billing_id = new_billing.id
+        db.session.add(item)
 
     try:
-        db.session.add(new_billing)
         db.session.commit()
         return jsonify({"message": "Billing record added successfully", "billing": new_billing.to_dict()}), 201
     except Exception as e:

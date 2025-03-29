@@ -4,7 +4,7 @@ from flask_bcrypt import Bcrypt
 from datetime import datetime, timedelta
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
-from models import db  # Assuming models is your package for db setup
+# from models import db  # Assuming models is your package for db setup
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
@@ -128,56 +128,6 @@ class MedicalRecord(db.Model):
         }
 
 
-# Billing and Payments
-# class Billing(db.Model):
-#     __tablename__ = 'billing'
-#     id = db.Column(db.Integer, primary_key=True)
-#     patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
-#     amount_due = db.Column(db.Float, nullable=False)
-#     amount_paid = db.Column(db.Float, default=0.0)
-#     status = db.Column(db.String(20), default='pending')  # pending, paid, overdue
-#     invoice_date = db.Column(db.DateTime, default=datetime.utcnow)
-
-#     def to_dict(self):
-#         return {
-#             "id": self.id,
-#             "patient_id": self.patient_id,
-#             "amount_due": self.amount_due,
-#             "amount_paid": self.amount_paid,
-#             "status": self.status,
-#             "invoice_date": self.invoice_date.isoformat()
-#         }
-
-# class Billing(db.Model):
-#     __tablename__ = 'billing'
-    
-#     id = db.Column(db.Integer, primary_key=True)
-#     patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
-#     invoice_number = db.Column(db.String(50), unique=True, nullable=False)
-#     total_amount_due = db.Column(db.Float, nullable=False)
-#     amount_paid = db.Column(db.Float, default=0.0)
-#     status = db.Column(db.String(20), default='pending')  # pending, paid, overdue
-#     invoice_date = db.Column(db.DateTime, default=datetime.utcnow)
-#     due_date = db.Column(db.DateTime, nullable=True)
-#     payment_method = db.Column(db.String(50), nullable=True)  # cash, insurance, card, etc.
-    
-#     # Relationship to track individual billing items
-#     billing_items = db.relationship("BillingItem", backref="billing", cascade="all, delete-orphan")
-
-#     def to_dict(self):
-#         return {
-#             "id": self.id,
-#             "patient_id": self.patient_id,
-#             "patient_name": f"{self.patient.first_name} {self.patient.last_name}" if self.patient else "Unknown",
-#             "invoice_number": self.invoice_number,
-#             "total_amount_due": self.total_amount_due,
-#             "amount_paid": self.amount_paid,
-#             "status": self.status,
-#             "invoice_date": self.invoice_date.isoformat() if self.invoice_date else None,
-#             "due_date": self.due_date.isoformat() if self.due_date else None,
-#             "payment_method": self.payment_method,
-#             "billing_items": [item.to_dict() for item in self.billing_items]  # List of itemized charges
-#         }
 
 
 
@@ -221,21 +171,7 @@ class Billing(db.Model):
         }
 
 
-# class BillingItem(db.Model):
-#     __tablename__ = 'billing_items'
 
-#     id = db.Column(db.Integer, primary_key=True)
-#     billing_id = db.Column(db.Integer, db.ForeignKey('billing.id', ondelete="CASCADE"), nullable=False)
-#     description = db.Column(db.String(255), nullable=False)  # Description of the charge (e.g., Consultation, Lab Test)
-#     amount = db.Column(db.Float, nullable=False)  # Cost of the individual item
-
-#     def to_dict(self):
-#         return {
-#             "id": self.id,
-#             "billing_id": self.billing_id,
-#             "description": self.description,
-#             "amount": self.amount
-#         }
 
 
 
@@ -252,23 +188,6 @@ class Staff(db.Model):
     attendance = db.Column(db.String(50), default='present')
 
 
-# Inventory Management
-# class Inventory(db.Model):
-#     __tablename__ = 'inventory'
-#     id = db.Column(db.Integer, primary_key=True)
-#     item_name = db.Column(db.String(100), nullable=False)
-#     quantity = db.Column(db.Integer, nullable=False)
-#     supplier = db.Column(db.String(100), nullable=True)
-#     last_updated = db.Column(db.DateTime, default=datetime.utcnow)
-
-#     def to_dict(self):
-#         return {
-#             "id": self.id,
-#             "item_name": self.item_name,
-#             "quantity": self.quantity,
-#             "supplier": self.supplier,
-#             "last_updated": self.last_updated.isoformat() if self.last_updated else None
-#         }
 
 # Inventory Management
 class Inventory(db.Model):
