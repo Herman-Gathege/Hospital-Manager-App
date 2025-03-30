@@ -172,23 +172,6 @@ class Billing(db.Model):
 
 
 
-
-
-
-
-
-# Staff and Doctor Management
-class Staff(db.Model):
-    __tablename__ = 'staff'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    # nurse, admin, lab_technician
-    role = db.Column(db.String(20), nullable=False)
-    shift = db.Column(db.String(50), nullable=False)
-    attendance = db.Column(db.String(50), default='present')
-
-
-
 # Inventory Management
 class Inventory(db.Model):
     __tablename__ = 'inventory'
@@ -221,15 +204,24 @@ class BillingItem(db.Model):
     # Relationship with Inventory
     inventory = db.relationship("Inventory", backref="billing_items")
 
-    def __init__(self, billing_id, inventory_id, quantity):
+    def __init__(self, billing_id, inventory_id, quantity, unit_price=None):
         inventory_item = Inventory.query.get(inventory_id)
         if not inventory_item:
             raise ValueError("Invalid inventory item")
+
+        if inventory_item.quantity < quantity:
+            raise ValueError("Not enough stock available")
+
         self.billing_id = billing_id
         self.inventory_id = inventory_id
         self.quantity = quantity
-        self.unit_price = inventory_item.cost  # Fetch price from inventory
+        self.unit_price = unit_price if unit_price else inventory_item.cost  # ✅ Allow explicit unit_price or default to inventory price
         self.total_price = self.quantity * self.unit_price  # Calculate total price
+        
+        # Reduce inventory stock
+        inventory_item.quantity -= quantity
+
+
 
     def to_dict(self):
         return {
@@ -240,3 +232,15 @@ class BillingItem(db.Model):
             "unit_price": self.unit_price,
             "total_price": self.total_price
         }
+    
+
+
+# Staff and Doctor Management
+class Staff(db.Model):
+    __tablename__ = 'staff'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    # nurse, admin, lab_technician
+    role = db.Column(db.String(20), nullable=False)
+    shift = db.Column(db.String(50), nullable=False)
+    attendance = db.Column(db.String(50), default='present')
