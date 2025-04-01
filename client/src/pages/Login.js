@@ -11,17 +11,7 @@ const Login = () => {
     const { handleLogin } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //         const response = await login(username, password);
-    //         handleLogin(response.role, username);  // Call handleLogin to update context state
-    //         navigate("/dashboard");
-    //     } catch (err) {
-    //         setError(err.message);
-    //     }
-    // };
-
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {

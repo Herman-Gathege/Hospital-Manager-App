@@ -2,15 +2,18 @@ from flask import Blueprint, request, jsonify
 from models import Billing, BillingItem, Inventory, db
 from utils.auth_middleware import token_required
 from decimal import Decimal
+from collections import defaultdict
+from datetime import datetime
 
 
-billing_bp = Blueprint('billing', __name__)  # Ensure it matches __init__.py
-
+billing_bp = Blueprint('billing', __name__)  
 @billing_bp.route('/', methods=['GET'])
 @token_required
 def get_invoices(current_user):
     invoices = Billing.query.all()
     return jsonify([invoice.to_dict() for invoice in invoices]), 200
+
+
 
 @billing_bp.route('/<int:id>', methods=['GET'])
 @token_required
@@ -20,50 +23,13 @@ def get_invoice(current_user, id):
         return jsonify({"message": "Invoice not found"}), 404
     return jsonify(invoice.to_dict()), 200
 
-# @billing_bp.route('/', methods=['POST'])
-# @token_required
-# def create_invoice(current_user):
-#     data = request.get_json()
-#     if not data:
-#         return jsonify({"message": "Invalid input"}), 400
-    
-#     try:
-#         new_invoice = Billing(**data)
-#         db.session.add(new_invoice)
-#         db.session.commit()
-#         return jsonify(new_invoice.to_dict()), 201
-#     except Exception as e:
-#         db.session.rollback()  # Rollback in case of error
-#         return jsonify({"message": str(e)}), 400
-
-# @billing_bp.route('/', methods=['POST'])
-# @token_required
-# def create_invoice(current_user):
-#     data = request.get_json()
-#     # print("Received Billing Data:", data)  # Debugging line
-#     print(f"Received Billing Data: {data}")  # Debugging line
 
 
-#     if not data:
-#         return jsonify({"message": "Invalid input"}), 400
-
-#     try:
-#         new_invoice = Billing(
-#             patient_id=data.get("patient_id"),  # Ensure snake_case
-#             total_amount=data.get("total_amount")
-#         )
-#         db.session.add(new_invoice)
-#         db.session.commit()
-#         return jsonify(new_invoice.to_dict()), 201
-#     except Exception as e:
-#         db.session.rollback()
-#         return jsonify({"message": str(e)}), 400
 
 @billing_bp.route('/', methods=['POST'])
 @token_required
 def create_invoice(current_user):
     data = request.get_json()
-    print(f"Received Billing Data: {data}")  # Debugging
 
     if not data:
         return jsonify({"message": "Invalid input"}), 400
@@ -91,6 +57,7 @@ def create_invoice(current_user):
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": str(e)}), 400
+    
 
 
 
@@ -114,6 +81,8 @@ def update_invoice(current_user, id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": str(e)}), 400
+    
+
 
 @billing_bp.route('/<int:id>', methods=['DELETE'])
 @token_required
@@ -129,6 +98,8 @@ def delete_invoice(current_user, id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": str(e)}), 400
+    
+
 
 @billing_bp.route('/add', methods=['POST'])
 @token_required
@@ -176,3 +147,41 @@ def create_invoice_with_items(current_user):
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": str(e)}), 500
+    
+
+    
+@billing_bp.route('/<int:billing_id>', methods=['PUT'])
+@token_required
+def update_billing_status(current_user, billing_id):
+    billing = Billing.query.get(billing_id)
+    if not billing:
+        return jsonify({"message": "Billing record not found"}), 404
+
+    data = request.get_json()
+    new_status = data.get("status")
+
+    if not new_status:
+        return jsonify({"message": "Status is required"}), 400
+
+    billing.status = new_status
+    db.session.commit()
+
+    return jsonify({"message": "Billing status updated successfully", "billing": billing.to_dict()}), 200
+
+
+
+
+@billing_bp.route('/api/paid-bills', methods=['GET'])
+@token_required
+def get_paid_bills(current_user):
+    paid_bills = Billing.query.filter_by(status="paid").all()
+    
+    revenue_by_month = defaultdict(float)
+    
+    for bill in paid_bills:
+        month = bill.invoice_date.strftime("%Y-%m")  # Extract "YYYY-MM"
+        revenue_by_month[month] += float(bill.amount_paid)
+    
+    revenue_data = [{"month": month, "revenue": revenue_by_month[month]} for month in sorted(revenue_by_month)]
+    
+    return jsonify(revenue_data), 200

@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify
-# from models import Patient, Billing, Appointment, Inventory, MedicalRecord, Staff
 from models import db, Patient, Billing, Appointment, Inventory, MedicalRecord, Staff
 from utils.auth_middleware import token_required
 
@@ -25,6 +24,8 @@ def dashboard_overview(current_user):
 
     return jsonify(overview), 200
 
+
+
 # Patient Statistics Route
 @dashboard_bp.route('/patient_stats', methods=['GET'])
 @token_required
@@ -46,6 +47,8 @@ def patient_stats(current_user):
 
     return jsonify(stats), 200
 
+
+
 # Appointment Statistics Route
 @dashboard_bp.route('/appointment_stats', methods=['GET'])
 @token_required
@@ -61,6 +64,8 @@ def appointment_stats(current_user):
     }
 
     return jsonify(stats), 200
+
+
 
 # Billing Statistics Route
 @dashboard_bp.route('/billing_stats', methods=['GET'])
@@ -79,6 +84,8 @@ def billing_stats():
     }
 
     return jsonify(stats), 200
+
+
 
 # Inventory Statistics Route
 @dashboard_bp.route('/inventory_stats', methods=['GET'])

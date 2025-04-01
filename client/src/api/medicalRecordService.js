@@ -14,7 +14,7 @@ export const createMedicalRecord = async (patientId, diagnosis, prescription, un
         const response = await axios.post(API_URL, {
             patient_id: patientId,
             diagnosis,
-            prescription,
+            prescription: prescription,
             units_prescribed: unitsPrescribed,
             lab_results: labResults,
         }, {

@@ -1,8 +1,8 @@
-"""Fixed foreign key constraint names
+"""starting a fresh
 
-Revision ID: af03579dc872
+Revision ID: 0149161bc997
 Revises: 
-Create Date: 2025-03-27 18:00:36.031442
+Create Date: 2025-04-01 17:59:35.303007
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'af03579dc872'
+revision = '0149161bc997'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -75,8 +75,8 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('patient_id', sa.Integer(), nullable=False),
     sa.Column('invoice_number', sa.String(length=50), nullable=False),
-    sa.Column('total_amount_due', sa.Float(), nullable=False),
-    sa.Column('amount_paid', sa.Float(), nullable=True),
+    sa.Column('total_amount_due', sa.Numeric(precision=10, scale=2), nullable=False),
+    sa.Column('amount_paid', sa.Numeric(precision=10, scale=2), nullable=True),
     sa.Column('status', sa.String(length=20), nullable=True),
     sa.Column('invoice_date', sa.DateTime(), nullable=True),
     sa.Column('due_date', sa.DateTime(), nullable=True),
@@ -90,6 +90,7 @@ def upgrade():
     sa.Column('patient_id', sa.Integer(), nullable=False),
     sa.Column('diagnosis', sa.String(length=255), nullable=False),
     sa.Column('prescription', sa.String(length=255), nullable=False),
+    sa.Column('units_prescribed', sa.Integer(), nullable=False),
     sa.Column('lab_results', sa.Text(), nullable=True),
     sa.Column('date_created', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], ),

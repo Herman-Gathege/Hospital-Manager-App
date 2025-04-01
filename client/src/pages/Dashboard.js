@@ -62,6 +62,8 @@ const Dashboard = () => {
         const overviewData = await getOverviewStats();
         setOverview(overviewData);
 
+        
+
         // Fetch Patient Stats
         const patientData = await getPatientStats();
         setPatientStats(patientData);
@@ -176,16 +178,21 @@ const Dashboard = () => {
           >
             Total Registered Patients: {overview.total_patients}
           </div>
-          <div className="widget"
-          onClick={() => navigate("/dashboard/appointments")}
-          style={{ cursor: "pointer" }}>
+          <div
+            className="widget"
+            onClick={() => navigate("/dashboard/appointments")}
+            style={{ cursor: "pointer" }}
+          >
             Appointments: {overview.total_appointments}
           </div>
           <div className="widget">
             Available Doctors: {overview.available_doctors}
           </div>
           <div className="widget">
-            Total Revenue: ${overview.total_revenue?.toFixed(2)}
+            Total Revenue: $
+            {revenueData
+              .reduce((total, item) => total + item.revenue, 0)
+              .toFixed(2)}
           </div>
         </div>
 

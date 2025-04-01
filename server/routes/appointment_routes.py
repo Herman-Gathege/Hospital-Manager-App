@@ -4,13 +4,15 @@ from utils.auth_middleware import token_required
 from datetime import datetime
 
 
-appointment_bp = Blueprint('appointment', __name__)  # Updated to match your __init__.py
+appointment_bp = Blueprint('appointment', __name__)  
 
 @appointment_bp.route('/', methods=['GET'])
 @token_required
 def get_appointments(current_user):
     appointments = Appointment.query.all()
     return jsonify([appointment.to_dict() for appointment in appointments]), 200
+
+
 
 @appointment_bp.route('/<int:id>', methods=['GET'])
 @token_required
@@ -19,6 +21,8 @@ def get_appointment(current_user, id):
     if not appointment:
         return jsonify({"message": "Appointment not found"}), 404
     return jsonify(appointment.to_dict()), 200
+
+
 
 @appointment_bp.route('/', methods=['POST'])
 @token_required
@@ -59,6 +63,9 @@ def create_appointment(current_user):
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": str(e)}), 400
+    
+
+    
 
 @appointment_bp.route('/<int:id>', methods=['PUT'])
 @token_required
@@ -75,6 +82,8 @@ def update_appointment(current_user, id):
     except Exception as e:
         db.session.rollback()  # Rollback in case of error
         return jsonify({"message": str(e)}), 400
+    
+
 
 @appointment_bp.route('/<int:id>', methods=['DELETE'])
 @token_required
@@ -89,6 +98,8 @@ def delete_appointment(current_user, id):
     except Exception as e:
         db.session.rollback()  # Rollback in case of error
         return jsonify({"message": str(e)}), 400
+    
+    
 
 
 @appointment_bp.route('/doctors', methods=['GET'])

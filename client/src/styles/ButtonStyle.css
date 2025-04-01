@@ -1,0 +1,16 @@
+/* ButtonStyles.css */
+.custom-button {
+  border-radius: 8px;
+  padding: 5px 10px;
+  text-transform: capitalize;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.custom-button:hover {
+  background-color: #388e3c; /* Customize this based on status */
+}
+
+.custom-button-secondary:hover {
+  background-color: #c2185b; /* Customize this based on status */
+}

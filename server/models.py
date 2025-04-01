@@ -4,12 +4,10 @@ from flask_bcrypt import Bcrypt
 from datetime import datetime, timedelta
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
-# from models import db  # Assuming models is your package for db setup
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
 
-# User Authentication and Role-Based Access Control (RBAC)
 
 
 class User(db.Model):
@@ -77,6 +75,8 @@ class Patient(db.Model):
             # Include medical records in the response
             "medical_records": [record.to_dict() for record in self.medical_records]
         }
+    
+
 
 
 # Appointment Scheduling
@@ -102,6 +102,8 @@ class Appointment(db.Model):
             "appointment_date": self.appointment_date.isoformat() if self.appointment_date else None,
             "status": self.status
         }
+    
+
 
 
 # Medical Records Management
@@ -169,6 +171,7 @@ class Billing(db.Model):
             "payment_method": self.payment_method,
             "billing_items": [item.to_dict() for item in self.billing_items]
         }
+    
 
 
 
@@ -190,6 +193,8 @@ class Inventory(db.Model):
             "cost": self.cost,  # Include cost in the response
             "expiration_date": self.expiration_date.isoformat() if self.expiration_date else None
         }
+    
+
 
 class BillingItem(db.Model):
     __tablename__ = 'billing_items'
@@ -232,6 +237,8 @@ class BillingItem(db.Model):
             "unit_price": self.unit_price,
             "total_price": self.total_price
         }
+    
+    
     
 
 

@@ -6,12 +6,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
+// import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import GroupIcon from "@mui/icons-material/Group";
 import InventoryIcon from "@mui/icons-material/Inventory";
-import ReportIcon from "@mui/icons-material/Assessment";
-import SettingsIcon from "@mui/icons-material/Settings";
+// import ReportIcon from "@mui/icons-material/Assessment";
+// import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { AuthContext } from "../context/AuthContext"; // Import AuthContext
 
@@ -33,7 +33,7 @@ const Sidebar = () => {
         { text: "Staff Management", path: "/staff", icon: <GroupIcon /> },
         { text: "Inventory", path: "/dashboard/inventory", icon: <InventoryIcon /> },
         // { text: "Reports", path: "/reports", icon: <ReportIcon /> },
-        { text: "Settings", path: "/settings", icon: <SettingsIcon /> },
+        // { text: "Settings", path: "/settings", icon: <SettingsIcon /> },
 
     ];
 

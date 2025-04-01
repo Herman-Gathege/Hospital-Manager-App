@@ -4,7 +4,7 @@ from utils.auth_middleware import token_required
 from datetime import datetime
 
 
-patient_bp = Blueprint('patient', __name__)  # Updated to match your __init__.py
+patient_bp = Blueprint('patient', __name__)  
 
 @patient_bp.route('/', methods=['GET'])
 @token_required

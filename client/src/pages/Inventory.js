@@ -26,7 +26,6 @@ const Inventory = () => {
   const fetchInventory = async () => {
     try {
       const data = await getAllInventory();
-      console.log("Fetched Inventory Data:", data); // Debugging log
       setInventory(data);
     } catch (error) {
       console.error("Error fetching inventory:", error.message);

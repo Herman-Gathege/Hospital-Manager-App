@@ -92,19 +92,7 @@ const ScheduleAppointmentModal = ({ open, onClose }) => {
               {doctor.username}
             </MenuItem>
           ))}
-        </Select>
-        {/* <InputLabel>Department</InputLabel>
-        <Select
-          fullWidth
-          margin="dense"
-          value={department}
-          onChange={(e) => setDepartment(e.target.value)}
-        >
-          <MenuItem value="General Medicine">General Medicine</MenuItem>
-          <MenuItem value="Pediatrics">Pediatrics</MenuItem>
-          <MenuItem value="Orthopedics">Orthopedics</MenuItem>
-          <MenuItem value="Dermatology">Dermatology</MenuItem>
-        </Select> */}
+        </Select>        
         <InputLabel>Status</InputLabel>
         <Select
           fullWidth

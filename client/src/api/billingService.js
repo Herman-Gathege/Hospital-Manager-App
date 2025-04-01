@@ -7,16 +7,6 @@ const getAuthHeader = () => {
     return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
-// export const addBilling = async (billingData) => {
-//     try {
-//         const response = await axios.post(API_URL, billingData, {
-//             headers: { ...getAuthHeader(), "Content-Type": "application/json" }
-//         });
-//         return response.data;
-//     } catch (error) {
-//         throw new Error(error.response?.data?.message || "Error adding billing record");
-//     }
-// };
 
 export const getAllBilling = async () => {
     try {
@@ -28,47 +18,6 @@ export const getAllBilling = async () => {
 };
 
 
-// export const addBilling = async (billingData) => {
-//     try {
-//         // Ensure the request payload uses `patient_id` (snake_case)
-//         const correctedBillingData = {
-//             patient_id: billingData.patient_id,  // Ensure this is in snake_case
-//             cost: billingData.cost,
-//             drug_name: billingData.drug_name,
-//             quantity: billingData.quantity
-//         };
-
-//         const response = await axios.post(API_URL, correctedBillingData, {
-//             headers: { ...getAuthHeader(), "Content-Type": "application/json" }
-//         });
-
-//         return response.data;
-//     } catch (error) {
-//         console.error("Error adding billing:", error.response?.data || error.message);
-//         throw new Error(error.response?.data?.message || "Error adding billing record");
-//     }
-// };
-
-// export const addBilling = async (billingData) => {
-//     try {
-//         // Ensure the request payload matches the backend model fields
-//         const correctedBillingData = {
-//             patient_id: billingData.patient_id,  // ✅ Correct field
-//             total_amount_due: billingData.cost, // 🔄 Rename 'cost' to 'total_amount_due'
-//             drug_name: billingData.drug_name,
-//             quantity: billingData.quantity
-//         };
-
-//         const response = await axios.post(API_URL, correctedBillingData, {
-//             headers: { ...getAuthHeader(), "Content-Type": "application/json" }
-//         });
-
-//         return response.data;
-//     } catch (error) {
-//         console.error("Error adding billing:", error.response?.data || error.message);
-//         throw new Error(error.response?.data?.message || "Error adding billing record");
-//     }
-// };
 
 export const addBilling = async (billingData) => {
     try {
@@ -104,14 +53,20 @@ export const deleteBilling = async (id) => {
 
 export const updateBilling = async (id, billingData) => {
     try {
+        console.log("Updating Billing Record:", id, billingData);  // Debugging
+
         const response = await axios.put(`${API_URL}${id}`, billingData, {
             headers: { ...getAuthHeader(), "Content-Type": "application/json" }
         });
+
+        console.log("Billing Updated Successfully:", response.data);  // Debugging
         return response.data;
     } catch (error) {
+        console.error("Error updating billing:", error.response?.data || error.message);
         throw new Error(error.response?.data?.message || "Error updating billing record");
     }
 };
+
 
 
 
@@ -123,3 +78,17 @@ export const getBillingByPatientId = async (patientId) => {
         throw new Error(error.response?.data?.message || "Error fetching billing records");
     }
 };
+
+export const updateBillingStatus = async (id, status) => {
+    try {
+        const response = await axios.put(`${API_URL}${id}`, { status }, {
+            headers: { ...getAuthHeader(), "Content-Type": "application/json" }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error updating billing status:", error);
+        throw new Error(error.response?.data?.message || "Error updating billing status");
+    }
+};
+
+  

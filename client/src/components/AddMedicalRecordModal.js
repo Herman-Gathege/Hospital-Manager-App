@@ -33,15 +33,7 @@ const AddMedicalRecordModal = ({ open, onClose, patientId, onSuccess }) => {
   
       // Fetch inventory and find the prescribed item
       const inventory = await getAllInventory();
-      // const inventoryItem = inventory.find(
-      //   (item) => item.drug_name.toLowerCase() === prescription.toLowerCase()
-      // );
-
-      // if (!inventoryItem) {
-      //   alert(`Error: The prescribed item "${prescription}" is not in inventory.`);
-      //   return;
-      // }
-
+     
       const inventoryItem = inventory.find(
         (item) => item.drug_name.toLowerCase() === prescription.toLowerCase()
       );
@@ -67,7 +59,7 @@ const AddMedicalRecordModal = ({ open, onClose, patientId, onSuccess }) => {
 
       // Create medical record (WITHOUT BILLING)
       // await createMedicalRecord(patientId, diagnosis, prescription, unitsPrescribed, labResults);
-      await createMedicalRecord(patientId, diagnosis, [drugId], { [drugId]: Number(unitsPrescribed), }, labResults);
+      await createMedicalRecord(patientId, diagnosis, prescription, { [drugId]: Number(unitsPrescribed), }, labResults);
 
       alert("Medical record added successfully!");
       onSuccess();

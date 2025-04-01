@@ -1,14 +1,6 @@
 
 import api from "./api";
 
-// export const getAllInventory = async () => {
-//     try {
-//         const response = await api.get("/inventory/all");  // Use "/all"
-//         return response.data;
-//     } catch (error) {
-//         throw new Error(error.response?.data?.message || "Error fetching inventory");
-//     }
-// };
 
 export const getAllInventory = async () => {
     try {

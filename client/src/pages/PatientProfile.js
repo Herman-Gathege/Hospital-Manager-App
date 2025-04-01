@@ -20,8 +20,10 @@ import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useParams, useNavigate } from "react-router-dom";
-import { getPatientById, deletePatient } from "../api/patientService";
+import { getPatientById } from "../api/patientService";
 import { getBillingByPatientId } from "../api/billingService";
+// import { updateMedicalRecord, deleteMedicalRecord } from "../api/medicalRecordService";
+
 import "../styles/PatientProfile.css";
 import AddMedicalRecordModal from "../components/AddMedicalRecordModal";
 
@@ -32,6 +34,8 @@ const PatientProfile = () => {
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
   const [billingRecords, setBillingRecords] = useState([]);
+  const [drugs, setDrugs] = useState({});
+
 
 
   const { userRole } = useContext(AuthContext);
@@ -49,6 +53,24 @@ const PatientProfile = () => {
   useEffect(() => {
     fetchPatient();
   }, [id]);
+
+  const fetchDrugs = async () => {
+    try {
+      const response = await fetch("/inventory"); // Update with your actual API
+      const data = await response.json();
+      const drugMap = data.reduce((acc, drug) => {
+        acc[drug.id] = drug.name;
+        return acc;
+      }, {});
+      setDrugs(drugMap);
+    } catch (error) {
+      console.error("Error fetching drug names:", error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchDrugs();
+  }, []);
 
   useEffect(() => {
     if (tabIndex === 1) { // Assuming "Billing Records" is the second tab (index 1)
@@ -69,15 +91,7 @@ const PatientProfile = () => {
     setTabIndex(newValue);
   };
 
-  const handleDelete = async () => {
-    try {
-      await deletePatient(id);
-      alert("Patient profile deleted successfully!");
-      navigate("/dashboard/patients");
-    } catch (error) {
-      alert("Error deleting profile: " + error.message);
-    }
-  };
+   
 
   // Open and close modal functions
   const handleOpenModal = () => setOpenModal(true);
@@ -188,8 +202,13 @@ const PatientProfile = () => {
               {patient.medical_records?.map((record, index) => (
                 <TableRow key={index}>
                   <TableCell>{record.diagnosis || ""}</TableCell>
-                  <TableCell>{record.prescription || ""}</TableCell>
-                  <TableCell>{record.lab_results || ""}</TableCell>
+                  {/* <TableCell>{record.prescription || ""}</TableCell> */}
+                  
+                  <TableCell>{drugs[record.prescription] || record.prescription || "N/A"}</TableCell>
+
+                  {/* <TableCell>{record.lab_results || ""}</TableCell> */}
+                  <TableCell>{record.lab_results || "No Lab Results"}</TableCell>
+
                   <TableCell>{record.date_created || ""}</TableCell>
                 </TableRow>
               ))}

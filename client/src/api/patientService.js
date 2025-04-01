@@ -85,18 +85,3 @@ export const getAllDoctors = async () => {
         throw new Error(error.response?.data?.message || "Error fetching doctors");
     }
 };
-
-
-// export const addMedicalRecord = async (patientId, recordData) => {
-//   const response = await axios.post(
-//     `/patients/${patientId}/medical_records`,
-//     recordData,
-//     { headers: { "Content-Type": "application/json" } }
-//   );
-//   return response.data;
-// };
-
-// export const getMedicalRecords = async (patientId) => {
-//   const response = await axios.get(`/patients/${patientId}/medical_records`);
-//   return response.data;
-// };
