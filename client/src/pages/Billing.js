@@ -87,9 +87,9 @@ const Billing = () => {
         />
       </div>
 
-      <Button startIcon={<PrintIcon />} style={{ color: "#007bff" }}>
+      {/* <Button startIcon={<PrintIcon />} style={{ color: "#007bff" }}>
         Print Records
-      </Button>
+      </Button> */}
       {/* Billing Records Table */}
       <Table>
         <TableHead>

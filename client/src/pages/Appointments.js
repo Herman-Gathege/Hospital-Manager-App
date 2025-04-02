@@ -18,7 +18,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import ScheduleAppointmentModal from "../components/ScheduleAppointmentModal";
 import "../styles/Appointments.css";
 import { AuthContext } from "../context/AuthContext";
-import { getAllAppointments } from "../api/appointmentService";
+import { getAllAppointments, deleteAppointment, updateAppointment } from "../api/appointmentService";
 
 const Appointments = () => {
   const [search, setSearch] = useState("");
@@ -49,6 +49,19 @@ const Appointments = () => {
     fetchAppointments();
   }, []);
 
+   // Handle Delete Patient
+    const handleDelete = async (id) => {
+      if (window.confirm("Are you sure you want to delete this patient?")) {
+        try {
+          await deleteAppointment(id);
+          alert("Appointment deleted successfully!");
+          setAppointments();
+        } catch (error) {
+          alert("Error deleting Appointment: " + error.message);
+        }
+      }
+    };
+
   return (
     <div className="appointments-container">
       {/* Greeting and Search Bar */}
@@ -73,9 +86,9 @@ const Appointments = () => {
         >
           Schedule Appointment
         </Button>
-        <Button startIcon={<PrintIcon />} style={{ color: "#007bff" }}>
+        {/* <Button startIcon={<PrintIcon />} style={{ color: "#007bff" }}>
           Print Details
-        </Button>
+        </Button> */}
       </div>
 
       {/* Appointments Table */}
@@ -143,7 +156,8 @@ const Appointments = () => {
                 <IconButton color="success">
                   <EditIcon />
                 </IconButton>
-                <IconButton color="error">
+                <IconButton color="error"
+                  onClick={() => handleDelete(appointment.id)}>
                   <DeleteIcon />
                 </IconButton>
               </TableCell>

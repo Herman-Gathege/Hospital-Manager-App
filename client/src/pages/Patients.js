@@ -112,9 +112,9 @@ const Patients = () => {
         >
           Register New Patient
         </Button>
-        <Button startIcon={<PrintIcon />} style={{ color: "#007bff" }}>
+        {/* <Button startIcon={<PrintIcon />} style={{ color: "#007bff" }}>
           Print Details
-        </Button>
+        </Button> */}
       </div>
 
       {/* Patients Table */}

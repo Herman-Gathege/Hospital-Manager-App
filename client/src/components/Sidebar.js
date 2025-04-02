@@ -30,7 +30,7 @@ const Sidebar = () => {
         { text: "Appointments", path: "/dashboard/appointments", icon: <CalendarMonthIcon /> },
         // { text: "Medical Records", path: "/medical-records", icon: <MedicalServicesIcon /> },
         { text: "Billing", path: "/dashboard/billing", icon: <ReceiptIcon /> },
-        { text: "Staff Management", path: "/staff", icon: <GroupIcon /> },
+        // { text: "Staff Management", path: "/dashboard/staff", icon: <GroupIcon /> },
         { text: "Inventory", path: "/dashboard/inventory", icon: <InventoryIcon /> },
         // { text: "Reports", path: "/reports", icon: <ReportIcon /> },
         // { text: "Settings", path: "/settings", icon: <SettingsIcon /> },
