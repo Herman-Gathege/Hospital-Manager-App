@@ -1,7 +1,7 @@
 // src/api/medicalRecordService.js
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/medical_record/";
+const API_URL = `${process.env.REACT_APP_API_BASE_URL}/api/medical_record/`;
 
 const getAuthHeader = () => {
     const token = localStorage.getItem("token");

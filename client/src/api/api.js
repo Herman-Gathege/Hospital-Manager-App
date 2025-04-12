@@ -3,7 +3,7 @@ import axios from "axios";
 import { getAuthHeader } from "./authService";
 
 const api = axios.create({
-    baseURL: "http://localhost:5000",
+    baseURL: process.env.REACT_APP_API_BASE_URL || "http://localhost:5000",
 });
 
 // Attach token to every request

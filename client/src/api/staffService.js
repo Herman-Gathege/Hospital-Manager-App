@@ -1,27 +1,8 @@
-// import axios from 'axios';
 
-// const API_URL = 'http://localhost:5000/api/staff';  // Replace with your Flask server URL
-
-// // Get all staff members
-// export const getAllStaff = async () => {
-//   try {
-//     const response = await axios.get(API_URL, {
-//       headers: {
-//         Authorization: `Bearer ${localStorage.getItem('token')}`,  // Assuming you store the JWT token in localStorage
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error('Error fetching staff:', error);
-//     throw error;
-//   }
-// };
-
-// // Create a new
 
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/staff/';
+const API_URL = `${process.env.REACT_APP_API_BASE_URL}/api/staff/`;
 
 // Function to get all staff members
 export const getAllStaff = async () => {
