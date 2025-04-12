@@ -40,7 +40,15 @@ app.config.from_object(Config)
 # Extensions
 db.init_app(app)
 migrate = Migrate(app, db)
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+CORS(app, resources={
+    r"/api/*": {
+        "origins": [
+            "http://localhost:3000",  # for local development
+            "https://hospital-manager-app.onrender.com"  # for deployed frontend
+        ]
+    }
+})
+
 
 # API Routes
 register_routes(app)
