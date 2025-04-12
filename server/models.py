@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_bcrypt import Bcrypt
 from datetime import datetime, timedelta
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import UUID, JSON
 import uuid
 
 bcrypt = Bcrypt()
@@ -114,7 +114,8 @@ class MedicalRecord(db.Model):
         'patients.id'), nullable=False)
     diagnosis = db.Column(db.String(255), nullable=False)
     prescription = db.Column(db.String(255), nullable=False)
-    units_prescribed = db.Column(db.Integer, nullable=False, default=0)  # New column
+    # units_prescribed = db.Column(db.Integer, nullable=False, default=0)  # New column
+    units_prescribed = db.Column(JSON)  # ✅ allow dictionary of drug_id: quantity
     lab_results = db.Column(db.Text)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
